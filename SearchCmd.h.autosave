@@ -1,0 +1,18 @@
+#ifndef SEARCHCMD_H
+#define SEARCHCMD_H
+#include "CommandAbstract.h"
+
+class SearchCmd : public CommandAbstract
+{
+    Q_OBJECT
+
+public:
+    SearchCmd(QWebView *view);
+    virtual void run();
+
+protected slots:
+    void startSearch();
+    void onLoadFinished(bool ok);
+};
+
+#endif // SEARCHCMD_H

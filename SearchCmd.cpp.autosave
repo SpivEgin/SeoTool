@@ -1,0 +1,32 @@
+#include "SearchCmd.h"
+#include <QWebPage>
+#include <QWebView>
+#include <QWebFrame>
+#include <QWebElement>
+#include <QTimer>
+
+SearchCmd::SearchCmd(QWebView *view):
+    CommandAbstract(view)
+{
+
+}
+
+void SearchCmd::run()
+{
+    QWebElement inputElement = view()->page()->mainFrame()->findFirstElement("input[name=q]");
+    inputElement.setAttribute("value", "marokkanische rezepte");
+    QTimer::singleShot(2000, this, SLOT(startSearch()));
+}
+
+void SearchCmd::startSearch()
+{
+    connect(view(), SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished(bool)));
+    QWebElement buttonElement = view()->page()->mainFrame()->findFirstElement("input[name=btnG]");
+    buttonElement.evaluateJavaScript("var evObj = document.createEvent('MouseEvents');evObj.initEvent( 'click', true, true );this.dispatchEvent(evObj);");
+}
+
+void SearchCmd::onLoadFinished(bool ok)
+{
+    
+}
+
